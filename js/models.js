@@ -37,6 +37,8 @@ export class Weather {
   }
 }
 
+// Тест
+
 export class ClothingAdvisor {
   static getRecommendation(category) {
      switch (category) {
