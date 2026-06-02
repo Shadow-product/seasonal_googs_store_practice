@@ -26,42 +26,26 @@ export class Weather {
 
   // метод для определения категории товаров
   getRecommendedCategory() {
-    if (this.sun) return "sun";
-    if (this.cloudy) return "cloudy";
-    if (this.rain) return "rain";
-    if (this.snowy) return "snowy";
-    if (this.windy) return "windy";
-    if (this.foggy) return "foggy";
-    if (this.stormy) return "stormy";
-    return "default";
+    if (this.sun) return "Солнечная погода";
+    if (this.cloudy) return "Облачная погода";
+    if (this.rain) return "Дождливая погода";
+    if (this.snowy) return "Снежная погода";
+    if (this.windy) return "Ветренная погода";
+    if (this.foggy) return "Туман";
+    if (this.stormy) return "Шторм";
+    return "Комфортная погода";
   }
-}
-
-export async function getRecommendedProducts(latitude, longitude) {
-  const weather = await getWeather(latitude, longitude);
-
-  const temp = weather.current.temperature_2m;
-  const rain = weather.current.precipitation;
-
-  let category;
-  if (temp > 25) category = "summer";
-  else if (rain > 0) category = "umbrella";
-  else if (temp < 0) category = "winter";
-  else category = "default";
-
-  return products.filter(p => p.category === category);
 }
 
 export class ClothingAdvisor {
   static getRecommendation(category) {
      switch (category) {
-      case "sun": return "кепку или футболку";
-      case "cloudy": return "лёгкую кофту";
-      case "rain": return "зонт или дождевик";
-      case "snowy": return "тёплую куртку и шапку";
-      case "windy": return "ветровку";
-      case "foggy": return "светоотражающую одежду";
-      case "stormy": return "плащ и прочную обувь";
+      case "Солнечная погода": return "кепку";
+      case "Облачная погода": return "куртку";
+      case "Дождливая погода": return "зонт";
+      case "Снежная погода": return "зимнюю куртку";
+      case "Ветренная погода": return "ветровку";
+      case "Туман": return "светоотражающий жилет";
       default: return "удобную одежду";
     }
   }
@@ -78,7 +62,7 @@ export class Product {
   }
 
    // безопасный рендер карточки для каталога
-  renderCard() {
+  renderCard(recommendationText = null) {
     const card = document.createElement("div");
     card.className = "card";
 
@@ -97,6 +81,13 @@ export class Product {
     link.textContent = "Подробнее";
 
     card.append(img, h3, price, link);
+    
+    if (recommendationText) {
+      const rec = document.createElement("p");
+      rec.className = "recommendation";
+      rec.textContent = recommendationText;
+      card.appendChild(rec);
+    }
     return card;
   }
 

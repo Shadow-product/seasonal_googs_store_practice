@@ -1,6 +1,17 @@
 import { renderHeader, renderFooter } from "./common.js";
-import { getProductById, getWeather } from "./api.js";
+import { getProductById, getWeather, getRecommendedProducts } from "./api.js";
 import { Product, Cart, Weather, ClothingAdvisor } from "./models.js";
+
+const categoryMap = {
+  sun: "Солнечная погода",
+  cloudy: "Облачная погода",
+  rain: "Дождливая погода",
+  snowy: "Снежная погода",
+  windy: "Ветренная погода",
+  foggy: "Туман",
+  stormy: "Шторм",
+  default: "Комфортная погода"
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   renderHeader();
@@ -26,21 +37,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   container.replaceChildren();
 
-  const img = document.createElement("img");
-  img.src = product.image;
-  img.alt = product.title;
-
-  const title = document.createElement("h2");
-  title.textContent = `Товар: ${product.title}`;
-
-  const desc = document.createElement("p");
-  desc.textContent = `Описание: ${product.description}`; 
-
-  const price = document.createElement("p");
-  price.textContent = `Цена: ${product.price} ₸`;
-
-  const div = document.createElement("div");
-  div.className = "div__actions";
+  // Блок и кнопки страницы товары
+  const divActions = document.createElement("div");
+  divActions.className = "div__actions";
 
   const addBtn = document.createElement("button");
   addBtn.className = "button button--add";
@@ -55,20 +54,50 @@ document.addEventListener("DOMContentLoaded", async () => {
   catalogBtn.className = "button button--catalog--product";
   catalogBtn.textContent = "В каталог";
 
-  const cartBtn = document.createElement("button");
-  cartBtn.className = "button button--cart";
-  cartBtn.textContent = "В корзину";
-
-  div.append(addBtn, catalogBtn, cartBtn);
-  container.append(img, title, desc, price, div);
-
+  // Обработчик события на главную страницу
   catalogBtn.addEventListener("click", () => {
     window.location.href = "index.html";
   });
 
-  cartBtn.addEventListener("click", () => {
+  const cartBtn = document.createElement("button");
+  cartBtn.className = "button button--cart";
+  cartBtn.textContent = "В корзину";
+
+  // Обработчик события на страницу корзины
+   cartBtn.addEventListener("click", () => {
     window.location.href = "cart.html";
   });
+
+  divActions.append(addBtn, catalogBtn, cartBtn);
+
+  // Карточка товара
+    const productCard = document.createElement("div");
+    productCard.className = "product__card";
+
+    const productImage = document.createElement("img");
+    productImage.src = product.image;
+    productImage.alt = product.title;
+
+    const productTitle = document.createElement("h2");
+    productTitle.textContent = `Товар: ${product.title}`;
+
+    const productDesc = document.createElement("p");
+    productDesc.textContent = `Описание: ${product.description}`; 
+
+    const productPrice = document.createElement("p");
+    productPrice.textContent = `Цена: ${product.price} ₸`;
+
+    const productCategory = document.createElement("p");
+    productCategory.textContent = `Категория: ${categoryMap[product.category] || "Неизвестно"}`;
+
+    const productRecommendation = document.createElement("p");
+    productRecommendation.textContent = `Рекомендация: ${ClothingAdvisor.getRecommendation(product.category)}`;
+
+    // собирается карточка товара
+    productCard.append(productImage, productTitle, productDesc,
+      productPrice, productCategory, productRecommendation);
+    container.appendChild(productCard);
+    container.appendChild(divActions);
 
   // Карточки координатов городов
   const cities = {
@@ -82,6 +111,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("Информация о погоде:", weatherData);
 
   if (weatherData.current) {
+    const temp = weatherData.current.temperature_2m;
+    const precipitation = weatherData.current.precipitation;
+    const windspeed = weatherData.current.windspeed;
+    const cloudcover = weatherData.current.cloudcover;
+    const visibility = weatherData.current.visibility;
+
+    // Определяются условия погоды
+    const sun = temp > 25 && cloudcover < 30;
+    const cloudy = cloudcover > 50 && precipitation === 0;
+    const rain   = temp >= 0 && precipitation > 0;
+    const snowy  = temp < 0 && precipitation > 0;
+    const windy  = windspeed > 10;
+    const foggy  = cloudcover > 80 || (visibility && visibility < 1000);
+    const stormy = windspeed > 20 && precipitation > 0;
+
+    const weather = new Weather(sun, cloudy, rain, snowy, windy, foggy, stormy);
+    const category = weather.getRecommendedCategory();
+    const clothing = ClothingAdvisor.getRecommendation(category)
+
+    // Карточка погоды
     const cardWeather = document.createElement("div");
     cardWeather.className = "weather__card";
 
@@ -110,7 +159,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Температура
     const tempWeather = document.createElement("p");
     tempWeather.className = "weather__temp";
-    tempWeather.textContent = `Температура: ${weatherData.current.temperature_2m}°C`;
+    tempWeather.textContent = `Температура: ${weatherData.current.temperature_2m} °C`;
 
     // Осадки
     const precipitationWeather= document.createElement("p");
@@ -127,43 +176,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     cloudWeather.className = "weather__cloud";
     cloudWeather.textContent = `Облачность: ${weatherData.current.cloudcover}%`;
 
-    // Определение условий погоды
-      const temp = weatherData.current.temperature_2m;
-      const precipitation = weatherData.current.precipitation;
-      const windspeed = weatherData.current.windspeed;
-      const cloudcover = weatherData.current.cloudcover;
-      const visibility = weatherData.current.visibility; // если запрашиваешь этот параметр
+    // Категория
+    const weatherCategory = document.createElement("p");
+    weatherCategory.className = "p__weather--category";
+    weatherCategory.textContent = `Категория товаров по погоде: ${weather.getRecommendedCategory()}`;
 
-      const sun = temp > 25 && cloudcover < 30;
-      const cloudy = cloudcover > 50 && precipitation === 0;
-      const rain   = temp >= 0 && precipitation > 0;
-      const snowy  = temp < 0 && precipitation > 0;
-      const windy  = windspeed > 10;
-      const foggy  = cloudcover > 80 || (visibility && visibility < 1000);
-      const stormy = windspeed > 20 && precipitation > 0;
+    // Рекомендация
+    const weatherRecommendation = document.createElement("p");
+    weatherRecommendation.className = "p__weather--recommendation";
+    weatherRecommendation.textContent = `Сейчас ${temp} °C - рекомендуем одеть категорию: ${clothing}`;
 
-      // Категория
-      const weather = new Weather(sun, cloudy, rain, snowy, windy, foggy, stormy);
-      console.log("Категория товаров по погоде:", weather.getRecommendedCategory());
+    const recommended = await getRecommendedProducts(coords.latitude, coords.longitude);
+    const recList = document.createElement("ul");
+    recommended.forEach(prod => {
+      const li = document.createElement("li");
+      li.textContent = `${prod.title} — ${prod.price} ₸`;
+      recList.appendChild(li);
+    });
 
-      const weatherCategory = document.createElement("p");
-      weatherCategory.className = "p__weather--category";
-      weatherCategory.textContent = `Категория товаров по погоде: ${weather.getRecommendedCategory()}`;
-
-      // Рекомендация
-      const category = weather.getRecommendedCategory();
-      const clothing = ClothingAdvisor.getRecommendation(category);
-      console.log(`Сейчас ${temp}°C — рекомендуем одеть категорию: ${clothing}`);
-
-      const weatherRecommendation = document.createElement("p");
-      weatherRecommendation.className = "p__weather--recommendation";
-      weatherRecommendation.textContent = `Сейчас ${temp}°C - рекомендуем одеть категорию: ${clothing}`;
-
-      // собирается карточка
-      cardWeather.append(titleWeather, timeWeather, tempWeather,
+    // собирается карточка погоды
+    cardWeather.append(titleWeather, timeWeather, tempWeather,
       precipitationWeather, windWeather, cloudWeather,
       weatherCategory, weatherRecommendation);
-      container.appendChild(cardWeather);
+
+    container.appendChild(cardWeather);
     }
   }
 });
