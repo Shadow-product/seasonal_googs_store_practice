@@ -40,12 +40,13 @@ export class Weather {
 export class ClothingAdvisor {
   static getRecommendation(category) {
      switch (category) {
-      case "Солнечная погода": return "кепку";
-      case "Облачная погода": return "куртку";
+      case "Солнечная погода": return "кепка";
+      case "Облачная погода": return "куртка";
       case "Дождливая погода": return "зонт";
-      case "Снежная погода": return "зимнюю куртку";
-      case "Ветренная погода": return "ветровку";
+      case "Снежная погода": return "зимняя куртка";
+      case "Ветренная погода": return "ветровка";
       case "Туман": return "светоотражающий жилет";
+      case "Шторм": return "дождевик";
       default: return "удобную одежду";
     }
   }

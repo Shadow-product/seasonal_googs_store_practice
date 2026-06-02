@@ -87,11 +87,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const productPrice = document.createElement("p");
     productPrice.textContent = `Цена: ${product.price} ₸`;
 
+    // Категория товара
     const productCategory = document.createElement("p");
-    productCategory.textContent = `Категория: ${categoryMap[product.category] || "Неизвестно"}`;
+    const categoryName = categoryMap[product.category] || "Неизвестно";
+    productCategory.textContent = `Категория: ${categoryName}`;
 
+    // Рекомендация товара
+    const recommendation = ClothingAdvisor.getRecommendation(categoryName) || "Нет рекомендации";
     const productRecommendation = document.createElement("p");
-    productRecommendation.textContent = `Рекомендация: ${ClothingAdvisor.getRecommendation(product.category)}`;
+    productRecommendation.textContent = `Рекомендация: ${recommendation}`;
 
     // собирается карточка товара
     productCard.append(productImage, productTitle, productDesc,
@@ -178,12 +182,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Категория
     const weatherCategory = document.createElement("p");
-    weatherCategory.className = "p__weather--category";
+    weatherCategory.className = "weather__category";
     weatherCategory.textContent = `Категория товаров по погоде: ${weather.getRecommendedCategory()}`;
 
     // Рекомендация
+    // const clothingRecommendation = ClothingAdvisor.getRecommendation(category) || "Нет рекомендации";
     const weatherRecommendation = document.createElement("p");
-    weatherRecommendation.className = "p__weather--recommendation";
+    weatherRecommendation.className = "weather__recommendation";
     weatherRecommendation.textContent = `Сейчас ${temp} °C - рекомендуем одеть категорию: ${clothing}`;
 
     const recommended = await getRecommendedProducts(coords.latitude, coords.longitude);
