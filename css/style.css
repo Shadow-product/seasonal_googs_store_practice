@@ -1,0 +1,148 @@
+* {box-sizing: border-box; } /* стабилизирует (предотвращает выползание блоков) */
+
+html, body {
+    height: 100%; /* прижимает футер внизу несмотря на содержимое страницы */
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+body {
+  display: flex;         /* flex-контейнер */
+  flex-direction: column;/* вертикальная колонка */
+  min-height: 100vh;     /* вся высота окна */
+}
+
+main {
+  flex: 1;              /* занимает всё свободное место */
+}
+
+/* Блок header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: black;
+  padding: 20px;
+}
+
+.header__logo {
+  font-weight: bold;
+}
+
+.header__logo a {
+  color: black;
+  text-decoration: none;
+}
+
+.header__logo a:hover {
+  color: grey;
+  text-decoration: underline;
+}
+
+/* Блочный элемент навигации (главная, товары и корзина) */
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__nav a {
+  font-weight: 500;
+  color: black;
+  text-decoration: none;
+}
+
+.header__nav a:hover {
+  opacity: 0.7;
+  color: gray;
+  text-decoration: underline;
+}
+
+/* Блочный элемент для приветствия после авторизации и кнопки выйти */
+.header__user {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между приветствием и кнопкой выйти */
+}
+
+/* .header__greeting {
+  
+} */
+
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background: white;
+  color: black;
+}
+
+.button:hover {
+  opacity: 0.7;
+  background: grey;
+}
+
+.catalog {
+  display: flex;
+  flex-direction: column; /* карточки идут сверху вниз */
+  margin: 20px;
+  padding: 10px;
+  gap: 20px;              /* отступ между карточками */
+  align-items: center;    /* центрируем по горизонтали */
+  text-align: center;     /* текст карточек по центру */
+}
+
+.catalog a {
+  font-weight: 550;
+  color: black;
+  text-decoration: none;
+}
+
+.catalog a:hover {
+  opacity: 0.7;
+  color: grey;
+  text-decoration: underline;
+}
+
+/* Блок footer */
+.footer {
+  background: white;
+  color: black;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Элементы внутри footer */
+.footer__links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.footer__links a {
+  font-weight: 500;
+  color: black;
+  text-decoration: none;
+}
+
+.footer__links a:hover {
+  opacity: 0.7;
+  color: grey;
+  text-decoration: underline;
+}
+
+.footer__copy {
+  font-weight: bold;
+  color: black;
+}
+
+@media (max-width: 600px) {
+  .header__nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

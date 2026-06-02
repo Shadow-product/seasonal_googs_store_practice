@@ -1,0 +1,41 @@
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 320px;
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.auth__form--hidden {
+  display: none;
+}
+
+.auth__form input {
+  width: 90%;
+  margin: 8px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Авторизация */
+.button--submit, /* кнопка вход */
+.button--registration { /* кнопка регистрация */
+  width: 90%; 
+  margin: 8px;
+}
+
+.auth__tab--login,
+.auth__tab--register {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background: white;
+  color: black;
+}

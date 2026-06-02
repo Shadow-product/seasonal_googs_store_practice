@@ -1,0 +1,76 @@
+.product-details {
+  text-align: center;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.product-details img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* .product-details h2 {
+
+}
+
+.product-details p {
+  
+} */
+
+.div__actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Каталог и карточки товара */
+.button--add, /* добавить в корзину */
+.button--catalog--product, /* в каталог */
+.button--cart { /* в корзину */
+  width: 50%;
+}
+
+.weather__card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 5px 0;
+  background: white;
+  text-align: center; 
+}
+
+.weather__card:hover {
+  opacity: 0.5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 5px 0;
+  background: grey;
+  text-align: center; 
+}
+
+/* .weather__title {
+}
+
+.weather__time {
+
+}
+
+.weather__temp {
+
+}
+
+.weather__precip {
+
+}
+
+.weather__wind {
+
+} */
+
+/* .weather__cloud {
+    
+} */
