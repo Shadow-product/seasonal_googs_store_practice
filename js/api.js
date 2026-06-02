@@ -12,7 +12,6 @@ export async function getForecast(lat, lon) {
   return RESULT_FORECAST.json();
 }
 
-// Тест
 const products = [
   { id: 1, title: "Кепка", price: 3500, description: "Для солнца", image: "images/cap.webp", category: "sun" },
   { id: 2, title: "Куртка", price: 18000, description: "Для ветра", image: "images/jacket.webp", category: "cloudy" },
