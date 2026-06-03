@@ -2,25 +2,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 0;
   margin: 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border);
 }
 
+/* Заголовок раздела Корзина */
 #h2__cart--title {
   font-weight: bold;
-  margin: 10px;
+  margin: 20px;
 }
 
 #p__cart--total,
 .div__cart--item p {
   font-weight: 500;
-  margin: 10px;
+  margin: 20px;
 }
 
 /* Корзина */
 .button--checkout, /* оформить заказ */
 .button--catalog-cart, /* в каталог */
 .button--remove { /* удалить */
-  margin: 10px;
+  margin: 20px;
 }

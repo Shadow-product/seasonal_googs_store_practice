@@ -1,3 +1,9 @@
+/* Заголовок раздела Вход / регистрация */
+#h__auth--title {
+  font-weight: bold;
+  margin: 20px;
+}
+
 .auth__form {
   display: flex;
   flex-direction: column;
@@ -5,8 +11,8 @@
   max-width: 320px;
   margin: 20px auto;
   padding: 10px;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid var(--border);
+  background: var(--auth-bg);
   border-radius: 8px;
 }
 
@@ -18,7 +24,7 @@
   width: 90%;
   margin: 8px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 5px;
 }
 
@@ -32,10 +38,10 @@
 .auth__tab--login,
 .auth__tab--register {
   display: inline-block;
+  margin: 15px;
   padding: 10px 15px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   cursor: pointer;
-  background: white;
-  color: black;
+  background: var(--auth-bg);
 }
