@@ -117,9 +117,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (weatherData.current) {
     const temp = weatherData.current.temperature_2m;
     const precipitation = weatherData.current.precipitation;
-    const windspeed = weatherData.current.windspeed;
+    const windspeed = weatherData.current.windspeed_10m;
     const cloudcover = weatherData.current.cloudcover;
     const visibility = weatherData.current.visibility;
+    const time = weatherData.current.time;
 
     // Определяются условия погоды
     const sun = temp > 25 && cloudcover < 30;
@@ -152,12 +153,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     (год‑месяц‑день, часы‑минуты‑секунды, плюс часовой пояс), 
     который используется для передачи времени в API
     и легко преобразуется в локальный формат для пользователя. */
-    const date = new Date(weatherData.current.time);
-    timeWeather.textContent = `Время: ${date.toLocaleString("ru-RU", {
+    const now = new Date();
+    timeWeather.textContent = `Время: ${now.toLocaleString("ru-RU", {
       hour: "2-digit",
       minute: "2-digit",
       day: "2-digit",
-      month: "long"
+      month: "long",
+      timeZone: "Asia/Almaty"
     })}`;
 
     // Температура
@@ -166,7 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     tempWeather.textContent = `Температура: ${weatherData.current.temperature_2m} °C`;
 
     // Осадки
-    const precipitationWeather= document.createElement("p");
+    const precipitationWeather = document.createElement("p");
     precipitationWeather.className = "weather__precip";
     precipitationWeather.textContent = `Осадки: ${weatherData.current.precipitation} мм`;
 

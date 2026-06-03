@@ -8,7 +8,7 @@ export async function getProductById(id) {
 
 // Получение погоды
 export async function getWeather(latitude, longitude) {
-  const URL_WEATHER = `${WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=auto`;
+  const URL_WEATHER = `${WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=Asia/Almaty`;
   const RESULT_WEATHER = await fetch(URL_WEATHER);
   return RESULT_WEATHER.json();
 }
@@ -38,7 +38,7 @@ export async function getRecommendedProducts(latitude, longitude) {
 
 // Прогноз
 export async function getForecast(lat, lon) {
-  const URL_FORECAST = `${WEATHER_URL}?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=auto`;
+  const URL_FORECAST = `${WEATHER_URL}?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=UTC`;
   const RESULT_FORECAST = await fetch(URL_FORECAST);
   return RESULT_FORECAST.json();
 }

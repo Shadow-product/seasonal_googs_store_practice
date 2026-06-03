@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         localStorage.setItem("selectedProductId", p.id);
         window.location.href = "product.html";
       });
-
       catalog.appendChild(card);
     });
 
