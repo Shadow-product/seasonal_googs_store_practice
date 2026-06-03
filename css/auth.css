@@ -20,21 +20,17 @@
   display: none;
 }
 
-.auth__form input {
-  width: 90%;
-  margin: 8px;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-}
-
 /* Авторизация */
 .button--submit, /* кнопка вход */
 .button--registration { /* кнопка регистрация */
   width: 90%; 
-  margin: 8px;
+  margin: 8px auto;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+/* Вкладки */
 .auth__tab--login,
 .auth__tab--register {
   display: inline-block;
@@ -44,4 +40,38 @@
   border: 1px solid var(--border);
   cursor: pointer;
   background: var(--auth-bg);
+}
+
+.auth__form input {
+  width: 90%;
+  margin: 8px auto;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Поле с глазком */
+.password-wrapper {
+  position: relative;
+  width: 90%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px; /* место для глазка */
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.password-wrapper .fa-eye,
+.password-wrapper .fa-eye-slash {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
 }

@@ -46,16 +46,35 @@ document.addEventListener("DOMContentLoaded", () => {
     email.type = "email";
     email.placeholder = "Email:";
 
+    const passwordWrapper = document.createElement("div");
+    passwordWrapper.className = "password-wrapper";
+
     const password = document.createElement("input");
     password.type = "password";
     password.placeholder = "Пароль:";
+
+    // кнопка глаз на форме входа / регистрации
+    const toggleBtn = document.createElement("span");
+    toggleBtn.className = "fa-solid fa-eye toggle-password";
+
+    toggleBtn.addEventListener("click", () => {
+      if (password.type === "password") {
+        password.type = "text";
+        toggleBtn.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        password.type = "password";
+        toggleBtn.classList.replace("fa-eye-slash", "fa-eye");
+      }
+  });
+
+    passwordWrapper.append(password, toggleBtn);
 
     const submitLogin = document.createElement("button");
     submitLogin.type = "submit";
     submitLogin.className = "button button--submit";
     submitLogin.textContent = "Войти";
 
-    form.append(email, password, submitLogin);
+    form.append(email, passwordWrapper, submitLogin);
     loginForm.appendChild(form);
 
     form.addEventListener("submit", (event) => {
@@ -102,20 +121,38 @@ document.addEventListener("DOMContentLoaded", () => {
     email.type = "email";
     email.placeholder = "Email:";
 
+    const passwordWrapper = document.createElement("div");
+    passwordWrapper.className = "password-wrapper";
+
     const password = document.createElement("input");
     password.type = "password";
     password.placeholder = "Пароль:";
 
-    const submit = document.createElement("button");
-    submit.type = "submit";
-    submit.className = "button button--registration";
-    submit.textContent = "Зарегистрироваться";
+    const toggleBtn = document.createElement("span");
+    toggleBtn.className = "fa-solid fa-eye toggle-password";
 
-    form.append(name, email, password, submit);
+    toggleBtn.addEventListener("click", () => {
+      if (password.type === "password") {
+        password.type = "text";
+        toggleBtn.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        password.type = "password";
+        toggleBtn.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+
+    passwordWrapper.append(password, toggleBtn);
+
+    const submitRegistration = document.createElement("button");
+    submitRegistration.type = "submit";
+    submitRegistration.className = "button button--registration";
+    submitRegistration.textContent = "Зарегистрироваться";
+
+    form.append(name, email, passwordWrapper, submitRegistration);
     registerForm.appendChild(form);
 
     form.addEventListener("submit", (e) => {
-      e.preventDefault();
+      e.preventDefault(); // Отмена стандартной отправки
 
       if (!validateName(name.value)) {
         alert("Введите имя");
