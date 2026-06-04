@@ -14,11 +14,6 @@
   border-radius: 8px;
 }
 
-.product-details img {
-  max-width: 90%;
-  border-radius: 8px;
-}
-
 /* .product-details h2 {
 
 }
@@ -83,3 +78,32 @@
 /* .weather__cloud {
     
 } */
+
+@media (max-width: 600px) {
+  .product-details {
+    max-width: 95%;   /* карточка почти на всю ширину */
+    margin: 10px;
+    padding: 8px;
+    font-size: 14px;  /* текст чуть меньше */
+  }
+
+  .product-details img {
+    max-width: 100%;  /* картинка растягивается */
+    height: auto;
+  }
+
+  .div__actions {
+    flex-direction: row; /* кнопки в столбик */
+    gap: 8px;
+  }
+
+  .div__actions button {
+    width: 100%; /* кнопки на всю ширину */
+  }
+
+  .weather__card {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 14px;
+  }
+}
