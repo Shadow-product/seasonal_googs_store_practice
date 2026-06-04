@@ -62,26 +62,39 @@ export class Product {
     this.category = category;
   }
 
-   // безопасный рендер карточки для каталога
-  renderCard(recommendationText = null) {
-    const card = document.createElement("div");
-    card.className = "card";
-
+  createBaseElement() {
     const img = document.createElement("img");
     img.src = this.image;
     img.alt = this.title;
+    img.className = "product__img";
 
-    const h3 = document.createElement("h3");
-    h3.textContent = `Товар: ${this.title}`;
+    const title = document.createElement("h3");
+    title.textContent = `Товар: ${this.title}`;
 
     const price = document.createElement("p");
     price.textContent = `Цена: ${this.price} ₸`;
 
+    return { img, title, price };
+  }
+
+   // безопасный рендер карточки для каталога
+  renderCard(recommendationText = null, categoryName = null) {
+    const card = document.createElement("div");
+    card.className = "product__card";
+
+    const { img, title, price } = this.createBaseElement();
+    card.append(img, title, price);
+
     const link = document.createElement("a");
     link.href = `product.html?id=${this.id}`;
     link.textContent = "Подробнее";
+    card.appendChild(link);
 
-    card.append(img, h3, price, link);
+    if (categoryName) {
+      const category = document.createElement("p");
+      category.textContent = `Категория: ${categoryName}`;
+      card.appendChild(category);
+    }
     
     if (recommendationText) {
       const rec = document.createElement("p");
@@ -93,27 +106,32 @@ export class Product {
   }
 
    // рендер подробной информации на странице товара
-  renderDetails() {
+  renderDetails(categoryName = null, recommendationText = null) {
     const container = document.createElement("div");
-    container.className = "product-details";
+    container.className = "product__details";
 
-    const img = document.createElement("img");
-    img.src = this.image;
-    img.alt = this.title;
-
-    const h2 = document.createElement("h2");
-    h2.textContent = `Товар: ${this.title}`;
+    const { img, title, price } = this.createBaseElement();
+    container.append(img, title, price);
 
     const desc = document.createElement("p");
     desc.textContent = this.description;
+    container.appendChild(desc);
 
-    const price = document.createElement("p");
-    price.textContent = `Цена: ${this.price} ₸`;
+    if (categoryName) {
+      const category = document.createElement("p");
+      category.textContent = `Категория: ${categoryName}`;
+      container.appendChild(category);
+    }
 
-    container.append(img, h2, desc, price);
-    return container;
+    if (recommendationText) {
+      const rec = document.createElement("p");
+      rec.textContent = recommendationText;
+      container.appendChild(rec);
+    }
+
+    return container; 
+    }
   }
-}
 
 // Класс для одного элемента корзины
 export class CartItem {

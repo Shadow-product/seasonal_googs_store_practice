@@ -104,36 +104,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.appendChild(divActions);
 
   // Карточки координатов городов
-  const cities = {
-    Астана: { latitude: 51.16, longitude: 71.45 },
-    Алматы: { latitude: 43.25, longitude: 76.95 },
-    Шымкент: { latitude: 42.31, longitude: 69.59 }
-  };
+  const cities = [
+    { name: "Астана", latitude: 51.16, longitude: 71.45 },
+    { name: "Алматы", latitude: 43.25, longitude: 76.95 },
+    { name: "Шымкент", latitude: 42.31, longitude: 69.59 }
+  ];
 
-  for (const [name, coords] of Object.entries(cities)) {
-    const weatherData = await getWeather(coords.latitude, coords.longitude);
-    console.log("Информация о погоде:", weatherData);
-
-  if (weatherData.current) {
-    const temp = weatherData.current.temperature_2m;
-    const precipitation = weatherData.current.precipitation;
-    const windspeed = weatherData.current.windspeed_10m;
-    const cloudcover = weatherData.current.cloudcover;
-    const visibility = weatherData.current.visibility;
-    const time = weatherData.current.time;
-
-    // Определяются условия погоды
-    const sun = temp > 25 && cloudcover < 30;
-    const cloudy = cloudcover > 50 && precipitation === 0;
-    const rain   = temp >= 0 && precipitation > 0;
-    const snowy  = temp < 0 && precipitation > 0;
-    const windy  = windspeed > 10;
-    const foggy  = cloudcover > 80 || (visibility && visibility < 1000);
-    const stormy = windspeed > 20 && precipitation > 0;
-
-    const weather = new Weather(sun, cloudy, rain, snowy, windy, foggy, stormy);
-    const category = weather.getRecommendedCategory();
-    const clothing = ClothingAdvisor.getRecommendation(category)
+  for (const city of cities) {
+    const weatherData = await getWeather(city.latitude, city.longitude);
 
     // Карточка погоды
     const cardWeather = document.createElement("div");
@@ -142,12 +120,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Название города
     const titleWeather = document.createElement("h3");
     titleWeather.className = "weather__title";
-    titleWeather.textContent = name;
+    titleWeather.textContent = city.name;
+    cardWeather.appendChild(titleWeather);
+
+    // если данных нет — выводим сообщение
+    if (!weatherData || !weatherData.current) {
+      const errorMsg = document.createElement("p");
+      errorMsg.textContent = "Погода недоступна";
+      cardWeather.appendChild(errorMsg);
+      container.appendChild(cardWeather);
+      continue; // переход к следующему городу
+    }
+
+    const temp = weatherData.current.temperature_2m;
+    const precipitation = weatherData.current.precipitation;
+    const windspeed = weatherData.current.windspeed_10m;
+    const cloudcover = weatherData.current.cloudcover;
+    const visibility = weatherData.current.visibility;
+    const time = weatherData.current.time;
+
+    const weather = new Weather(
+      temp > 25 && cloudcover < 30,
+      cloudcover > 50 && precipitation === 0,
+      temp >= 0 && precipitation > 0,
+      temp < 0 && precipitation > 0,
+      windspeed > 10,
+      cloudcover > 80 || (visibility && visibility < 1000),
+      windspeed > 20 && precipitation > 0
+    );
+
+    const category = weather.getRecommendedCategory();
+    const clothing = ClothingAdvisor.getRecommendation(category)
 
     // Время
     const timeWeather = document.createElement("p");
     timeWeather.className = "weather__time";
-
     // преобразовывается ISO‑строку в локальное время
     /* ISO‑строка — это универсальный формат даты и времени
     (год‑месяц‑день, часы‑минуты‑секунды, плюс часовой пояс), 
@@ -165,27 +172,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Температура
     const tempWeather = document.createElement("p");
     tempWeather.className = "weather__temp";
-    tempWeather.textContent = `Температура: ${weatherData.current.temperature_2m} °C`;
+    tempWeather.textContent = `Температура: ${temp} °C`;
 
     // Осадки
     const precipitationWeather = document.createElement("p");
     precipitationWeather.className = "weather__precip";
-    precipitationWeather.textContent = `Осадки: ${weatherData.current.precipitation} мм`;
+    precipitationWeather.textContent = `Осадки: ${precipitation} мм`;
 
     // Ветер
     const windWeather = document.createElement("p");
     windWeather.className = "weather__wind";
-    windWeather.textContent = `Ветер: ${weatherData.current.windspeed_10m} км/ч`;
+    windWeather.textContent = `Ветер: ${windspeed} км/ч`;
 
     // Облачность
     const cloudWeather = document.createElement("p");
     cloudWeather.className = "weather__cloud";
-    cloudWeather.textContent = `Облачность: ${weatherData.current.cloudcover}%`;
+    cloudWeather.textContent = `Облачность: ${cloudcover}%`;
 
     // Категория
     const weatherCategory = document.createElement("p");
     weatherCategory.className = "weather__category";
-    weatherCategory.textContent = `Категория товаров по погоде: ${weather.getRecommendedCategory()}`;
+    weatherCategory.textContent = `Категория товаров по погоде: ${category}`;
 
     // Рекомендация
     // const clothingRecommendation = ClothingAdvisor.getRecommendation(category) || "Нет рекомендации";
@@ -193,20 +200,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     weatherRecommendation.className = "weather__recommendation";
     weatherRecommendation.textContent = `Сейчас ${temp} °C - рекомендуем одеть категорию: ${clothing}`;
 
-    const recommended = await getRecommendedProducts(coords.latitude, coords.longitude);
-    const recList = document.createElement("ul");
-    recommended.forEach(prod => {
-      const li = document.createElement("li");
-      li.textContent = `${prod.title} — ${prod.price} ₸`;
-      recList.appendChild(li);
-    });
-
     // собирается карточка погоды
     cardWeather.append(titleWeather, timeWeather, tempWeather,
       precipitationWeather, windWeather, cloudWeather,
-      weatherCategory, weatherRecommendation);
+      weatherCategory, weatherRecommendation
+    );
 
     container.appendChild(cardWeather);
-    }
+
+    await new Promise(resolve => setTimeout(resolve, 1500)); // пауза между запросами
   }
-});
+})

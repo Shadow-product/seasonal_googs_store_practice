@@ -1,4 +1,5 @@
 const WEATHER_URL = "https://api.open-meteo.com/v1/forecast";
+const CACHE_TIME = 5 * 60 * 1000;
 
 // Получение товара по id
 export async function getProductById(id) {
@@ -8,14 +9,58 @@ export async function getProductById(id) {
 
 // Получение погоды
 export async function getWeather(latitude, longitude) {
-  const URL_WEATHER = `${WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=Asia/Almaty`;
-  const RESULT_WEATHER = await fetch(URL_WEATHER);
-  return RESULT_WEATHER.json();
+  const cacheKey = `weather_${latitude}_${longitude}`;
+  const cached = localStorage.getItem(cacheKey);
+
+
+  if (cached) {
+    const data = JSON.parse(cached);
+    if (Date.now() - data.timestamp < CACHE_TIME) {
+      console.log("Используется кэш:", cacheKey);
+      return data.response;
+    }
+  }
+
+  try{
+    const URL_WEATHER = `${WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=Asia/Almaty`;
+    const response = await fetch(URL_WEATHER);
+    if (!response.ok) {
+      throw new Error(`Ошибка: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    localStorage.setItem(cacheKey, JSON.stringify({
+      timestamp: Date.now(),
+      response: json
+    }));
+
+    return json;
+  } catch (error) {
+    console.error("Не удалось получить данные погоды:", error.message);
+    return null;
+  }
 }
+
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+export const getWeatherDebounced = debounce(getWeather, 1000);
+
 
 // Рекомендации по погоде
 export async function getRecommendedProducts(latitude, longitude) {
-  const weatherData = await getWeather(latitude, longitude);
+  const weatherData = await getWeatherDebounced(latitude, longitude);
+
+   if (!weatherData || !weatherData.current) {
+    console.warn("Нет данных о погоде");
+    return [];
+  }
 
   const temp = weatherData.current.temperature_2m;
   const rain = weatherData.current.precipitation;
@@ -34,13 +79,6 @@ export async function getRecommendedProducts(latitude, longitude) {
   else category = "default";
 
   return products.filter(p => p.category === category);
-}
-
-// Прогноз
-export async function getForecast(lat, lon) {
-  const URL_FORECAST = `${WEATHER_URL}?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,cloudcover,windspeed_10m,visibility&timezone=UTC`;
-  const RESULT_FORECAST = await fetch(URL_FORECAST);
-  return RESULT_FORECAST.json();
 }
 
 // Массив товаров

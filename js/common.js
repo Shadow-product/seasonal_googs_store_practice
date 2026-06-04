@@ -43,11 +43,20 @@ export function renderHeader() {
   greetingContainer.id = "greeting";
 
   nav.append(linkMain, linkCatalog, linkCart, greetingContainer);
-  header.replaceChildren(logo, nav);
 
-  // теперь обновляем приветствие через функцию
-  showGreeting();
-}
+  const hamburger = document.createElement("button");
+  hamburger.id = "hamburger-menu";
+  hamburger.className = "hamburger-menu";
+  hamburger.textContent = "☰";
+
+  header.replaceChildren(logo, hamburger, nav);
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+
+    showGreeting();
+  }
 
 export function showGreeting() {
   const user = getCurrentUser();

@@ -1,4 +1,5 @@
 import { renderHeader, renderFooter, showGreeting, updateCartIcon, updateCartCount } from "./common.js";
+import { User } from "./models.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
@@ -7,7 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.querySelector(".auth__form--login");
   const registerForm = document.querySelector(".auth__form--register");
 
-  // Общие функции валидации
+  // Валидация регулярными выражениями (проверка на имя (name), почту (email) и пароль (password))
+  function validateName(name) {
+    return name.trim().length > 0;
+  }
+
   function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -16,10 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function validatePassword(password) {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return passwordRegex.test(password);
-  }
-
-  function validateName(name) {
-    return name.trim().length > 0;
   }
 
   // Переключение вкладок
@@ -89,22 +90,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      /* Если все проверки пройдены сохраняется пользователь */
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const found = users.find(u => u.email === email.value && u.password === password.value);
+    /* Если все проверки пройдены сохраняется пользователь */
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const found = users.find(u => u.email === email.value);
 
-      if (found) {
-        localStorage.setItem("currentUser", JSON.stringify(found));
-        showGreeting();
-        updateCartIcon();
-        updateCartCount();
-        alert(`Вы вошли как ${found.name}!`);
-        window.location.href = "index.html";
+    if (found) {
+      const user = new User(found.name, found.email, found.password);
+      if (user.checkPassword(password.value)) {
+          localStorage.setItem("currentUser", JSON.stringify(user));
+          showGreeting();
+          updateCartIcon();
+          updateCartCount();
+          alert(`Вы вошли как ${user.name}!`);
+          window.location.href = "index.html";
       } else {
-        alert("Неверный email или пароль");
+          alert("Неверный пароль");
       }
-    });
-  }
+    } else {
+      alert("Пользователь не найден");
+    }
+  });
+}
 
   // Форма регистрации
   function buildRegisterForm() {
@@ -175,8 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const user = { name: name.value, email: email.value, password: password.value };
-
+      const user = new User(name.value, email.value, password.value);
       users.push(user);
       localStorage.setItem("users", JSON.stringify(users));
       localStorage.setItem("currentUser", JSON.stringify(user));
