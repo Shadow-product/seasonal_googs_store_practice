@@ -88,7 +88,7 @@ export function showGreeting() {
   } else {
     const linkAuth = document.createElement("a");
     linkAuth.href = "auth.html";
-    linkAuth.textContent = "Вход / регистрация";
+    linkAuth.textContent = "Авторизация";
     greetingEl.append(linkAuth);
   }
 }
@@ -137,7 +137,7 @@ export function renderFooter() {
 
   const linkAuth = document.createElement("a");
   linkAuth.href = "auth.html";
-  linkAuth.textContent = "Вход / регистрация";
+  linkAuth.textContent = "Авторизация";
 
   links.append(linkMain, linkCatalog, linkCart, linkAuth);
 
