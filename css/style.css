@@ -153,8 +153,10 @@ main {
 /* фото главной страницы и товара */
 .product__card img,
 .product__details img {
+  display: block;
   max-width: 100%;
   border-radius: 8px;
+  margin-bottom: 15px;
 }
 
 .product__h3,
@@ -164,6 +166,7 @@ main {
   font-size: 16px;
   font-weight: 350;
   color: black;
+  margin-top: 10px;
   text-decoration: none;
 }
 

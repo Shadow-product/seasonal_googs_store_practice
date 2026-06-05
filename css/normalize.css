@@ -1,0 +1,55 @@
+/* Базовые настройки */
+html {
+    line-height: 1.15; /* одинаковая высота строки */
+    -webkit-text-size-adjust: 100%; /* отключает авто-масштаб текста в Safari */
+}
+
+body {
+    margin: 0; /* убираем стандартные отступы */
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: bold;
+}
+
+/* Списки */
+ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Ссылки */
+a {
+    background-color: transparent;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Изображение */
+img {
+    border-style: none;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Формы */
+button, input, select, textarea {
+    margin: 0;
+    font: inherit;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Таблицы */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
