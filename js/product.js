@@ -119,7 +119,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Название города
     const titleWeather = document.createElement("h3");
-    titleWeather.className = "weather__title";
     titleWeather.textContent = city.name;
     cardWeather.appendChild(titleWeather);
 
@@ -154,7 +153,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Время
     const timeWeather = document.createElement("p");
-    timeWeather.className = "weather__time";
     // преобразовывается ISO‑строку в локальное время
     /* ISO‑строка — это универсальный формат даты и времени
     (год‑месяц‑день, часы‑минуты‑секунды, плюс часовой пояс), 
@@ -171,33 +169,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Температура
     const tempWeather = document.createElement("p");
-    tempWeather.className = "weather__temp";
     tempWeather.textContent = `Температура: ${temp} °C`;
 
     // Осадки
     const precipitationWeather = document.createElement("p");
-    precipitationWeather.className = "weather__precip";
     precipitationWeather.textContent = `Осадки: ${precipitation} мм`;
 
     // Ветер
     const windWeather = document.createElement("p");
-    windWeather.className = "weather__wind";
     windWeather.textContent = `Ветер: ${windspeed} км/ч`;
 
     // Облачность
     const cloudWeather = document.createElement("p");
-    cloudWeather.className = "weather__cloud";
     cloudWeather.textContent = `Облачность: ${cloudcover}%`;
 
     // Категория
     const weatherCategory = document.createElement("p");
-    weatherCategory.className = "weather__category";
     weatherCategory.textContent = `Категория товаров по погоде: ${category}`;
 
     // Рекомендация
     // const clothingRecommendation = ClothingAdvisor.getRecommendation(category) || "Нет рекомендации";
     const weatherRecommendation = document.createElement("p");
-    weatherRecommendation.className = "weather__recommendation";
     weatherRecommendation.textContent = `Сейчас ${temp} °C - рекомендуем одеть категорию: ${clothing}`;
 
     // собирается карточка погоды

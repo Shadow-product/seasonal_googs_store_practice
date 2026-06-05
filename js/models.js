@@ -69,9 +69,11 @@ export class Product {
     img.className = "product__img";
 
     const title = document.createElement("h3");
+    title.className = "product__h3";
     title.textContent = `Товар: ${this.title}`;
 
     const price = document.createElement("p");
+    price.className = "product__p";
     price.textContent = `Цена: ${this.price} ₸`;
 
     return { img, title, price };
@@ -87,6 +89,7 @@ export class Product {
 
     const link = document.createElement("a");
     link.href = `product.html?id=${this.id}`;
+    link.className = "product__a";
     link.textContent = "Подробнее";
     card.appendChild(link);
 

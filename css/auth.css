@@ -1,6 +1,6 @@
 /* Заголовок раздела Вход / регистрация */
 #h__auth--title {
-  font-weight: bold;
+  font-family: "Inter", "sans-serif";
   margin: 20px;
 }
 
@@ -23,17 +23,17 @@
 /* Авторизация */
 .button--submit, /* кнопка вход */
 .button--registration { /* кнопка регистрация */
+  font-family: "Times New Roman", "sans-serif";
+  font-weight: 500;
   width: 90%; 
   margin: 8px auto;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 /* Вкладки */
 .auth__tab--login,
 .auth__tab--register {
   display: inline-block;
+  font-family: "Times New Roman", "sans-serif";
   margin: 15px;
   padding: 10px 15px;
   border-radius: 5px;

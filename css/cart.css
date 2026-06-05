@@ -9,13 +9,12 @@
 
 /* Заголовок раздела Корзина */
 #h2__cart--title {
-  font-weight: bold;
+  font-family: "Inter", "sans-serif";
   margin: 20px;
 }
 
 #p__cart--total,
 .div__cart--item p {
-  font-weight: 500;
   margin: 20px;
 }
 
@@ -23,5 +22,15 @@
 .button--checkout, /* оформить заказ */
 .button--catalog-cart, /* в каталог */
 .button--remove { /* удалить */
+  font-family: "Times New Roman", "sans-serif";
+  font-weight: 500;
   margin: 20px;
+}
+
+@media (max-width: 600px) {
+  .button--checkout,
+  .button--catalog-cart,
+  .button--remove {
+    font-size: 12px;
+  }
 }

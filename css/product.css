@@ -1,11 +1,10 @@
 /* Заголовок раздела Товары */
 #h__product--title {
-  font-weight: bold;
+  font-family: "Inter", "sans-serif";
   margin: 20px;
 }
 
 .product-details {
-  text-align: center;
   max-width: 600px;
   margin: 20px auto;
   padding: 10px;
@@ -14,13 +13,19 @@
   border-radius: 8px;
 }
 
-/* .product-details h2 {
-
+.product-details h2,
+.product-details h3, 
+.product-details p {
+  font-family: "Montserrat", "sans-serif";
+  font-size: 16px;
+  font-weight: 350;
+  color: black;
+  text-decoration: none;
 }
 
-.product-details p {
-  
-} */
+.product__card {
+  text-align: center;
+}
 
 .div__actions {
   display: flex;
@@ -31,19 +36,20 @@
 .button--add, /* добавить в корзину */
 .button--catalog--product, /* в каталог */
 .button--cart { /* в корзину */
+  font-family: "Times New Roman", "sans-serif";
+  font-weight: 500;
   width: 50%;
-  cursor: pointer;
 }
 
 /* Карточки погоды */
-
 .weather__card {
+  font-family: "Montserrat", "sans-serif";
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 5px;
   margin: 5px 0;
   background: var(--weather-card);
-  text-align: center; 
+  text-align: center;
 }
 
 .weather__card:hover {
@@ -55,29 +61,6 @@
   background: var(--weather-bg);
   text-align: center; 
 }
-
-/* .weather__title {
-}
-
-.weather__time {
-
-}
-
-.weather__temp {
-
-}
-
-.weather__precip {
-
-}
-
-.weather__wind {
-
-} */
-
-/* .weather__cloud {
-    
-} */
 
 @media (max-width: 600px) {
   .product-details {
@@ -98,7 +81,7 @@
   }
 
   .div__actions button {
-    width: 100%; /* кнопки на всю ширину */
+    font-size: 12px;
   }
 
   .weather__card {

@@ -118,6 +118,10 @@ export function renderFooter() {
 
   const links = document.createElement("div");
   links.className = "footer__links";
+  const copy = document.createElement("div");
+  copy.className = "footer__copy";
+  copy.textContent = "© 2026  🌤 Seasonal Goods Store";
+  footer.appendChild(copy);
 
   const linkMain = document.createElement("a");
   linkMain.href = "index.html";
@@ -137,12 +141,7 @@ export function renderFooter() {
 
   links.append(linkMain, linkCatalog, linkCart, linkAuth);
 
-  const copy = document.createElement("div");
-
-  copy.className = "footer__copy";
-  copy.textContent = "© 2026  🌤 Seasonal Goods Store";
-
-  footer.replaceChildren(links, copy);
+  footer.replaceChildren(copy, links);
 }
 
 // Инициализация
